@@ -1,0 +1,19 @@
+--- 
+kind: pipeline
+type: kubernetes
+name: default
+
+steps:
+  - name: build & push tag main
+    image: plugins/docker
+    settings:
+      registry: quay.io
+      repo: quay.io/ukhomeofficedigital/hocs-workflow
+      tags:
+        - ${DRONE_TAG}
+        - ${DRONE_COMMIT_SHA}
+        - latest
+    environment:
+      DOCKER_PASSWORD:
+        from_secret: QUAY_ROBOT_TOKEN
+      DOCKER_USERNAME: ukhomeofficedigital+hocs_quay_robot
